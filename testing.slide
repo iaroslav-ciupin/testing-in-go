@@ -1,6 +1,6 @@
 
 Testing in Go
-Libraries and best practices
+# Libraries and best practices
 5 Apr 2018
 Tags: go, testing, unit-testing, integration-testing
 
@@ -9,53 +9,79 @@ Go Developer, Ellation
 iaroslav.ciupin@ellation.com
 http://ellation.com
 
-* Table of contents
+* Agenda 
 
-- Intro
 - Standard library
 - testify
+- Testing web services
 - gock
 - go-sqlmock
-- integration tests
-
-* Intro
-
-Simple web server
-
-.image testing-in-go.png
+- Integration tests
 
 * Testing using standard library
 
-.code -numbers TestFunc.go
+func_test.go
+.code -numbers func_test.go
+
+ go test <package_name> -run="Test.*"
+ go test ./...
 
 * github.com/stretchr/testify/assert
 
-- readable code
-- easy checks
-- failure descriptions
+TODO
+
+* Data-driven testing
+
+.code -numbers data_test.go
+
+* Benchmarking using standard library
+
+.code -numbers bench_test.go /^func Bench/,/^}/
+
+ go test -bench=Benchmark.* -benchmem -benchtime=10s
+
+	goos: darwin
+	goarch: amd64
+	pkg: github.com/iaroslav-ciupin/testing-in-go
+	BenchmarkAnswer-8   	10000000000	         0.32 ns/op	       0 B/op	       0 allocs/op
+	PASS
+	ok  	github.com/iaroslav-ciupin/testing-in-go	3.221s
+
+
+* Coverage?
+
+TODO
 
 * github.com/stretchr/testify/mock
 
-- mocking dependencies
-- setting/asserting expectations
+: mocking dependencies
+: setting/asserting expectations
 
 * github.com/stretchr/testify/suite
 
-- structuring more complex testing logic
-- beforeAll, beforeEvery, afterAll, afterEvery
-- built-in assertions
+: structuring more complex testing logic
+: beforeAll, beforeEvery, afterAll, afterEvery
+: built-in assertions
+
+* Simple web server
+
+.image testing-in-go.png
+
+* httptest request and server
+
+TODO
 
 * github.com/h2non/gock
 
-TODO: httptest request and server
+TODO
 
 - easy HTTP request/response mocking
 
 * github.com/DATA-DOG/go-sqlmock
 
-- NOT AN IN-MEMORY DATABASE!
-- matches SQL regex
-- network/database error testing
+: NOT AN IN-MEMORY DATABASE!
+: matches SQL regex
+: network/database error testing
 
 * integration testing
 

@@ -21,32 +21,74 @@ http://ellation.com
 * Testing using standard library
 
 func_test.go
-.code -numbers func_test.go
+.code -numbers code/func_test.go
 
- go test <package_name> -run="Test.*"
  go test ./...
+ go test ./<package_name> -run="Test.*"
+
+: test files names .*_test.go + located in same package
+: test cases are considered functions func Test.*
+: run tests: all, for package, concrete functions
+
+* github.com/stretchr/testify
+
+github.com/stretchr/testify/assert
+
+   assert.Equal(t, 123, 123, "they should be equal")
+   assert.NoError(t, err, "no error expected")
+   assert.Contains(t, "ABC", "A", "string should contain A")
+   assert.Len(t, []int{1, 2}, 2, "slice should have length 2")
+   assert.NotNil(t, obj, "should not be nil")
+   assert.IsType(t, MyType{}, obj, "should be of type MyType")
+   assert.NotPanics(t, func, "should not panic")
+   and other ...
+
+: testify - library with a bunch of testing helpers
+: assert - has plenty of asserting functions with optional description
+
+github.com/stretchr/testify/require
+
+Same as assert, but calls `t.FailNow()` (stops test immediately)
 
 * github.com/stretchr/testify/assert
 
-TODO
+.code -numbers code/assert_test.go
+
+: create assert/require objects for re-use
+: more readable tests
 
 * Data-driven testing
 
-.code -numbers data_test.go
+.code -numbers code/data_test.go /^func Test/,/^}/
+
+	--- FAIL: TestF (0.00s)
+		data_test.go:18:
+				Error Trace:	data_test.go:18
+				Error:      	Not equal:
+				            	expected: 44
+				            	actual  : 43
+				Test:       	TestF
+				Messages:   	input 42
+	FAIL
+
+: No built-in or 3-rd party support for data-driven testing :(
+: Actually, you don't even need it!
+: Have to use good old for-loop
+: Good practice to mark test case in test description
+: Lesson learnt: always think about failed runs, not only success runs
 
 * Benchmarking using standard library
 
-.code -numbers bench_test.go /^func Bench/,/^}/
+.code -numbers code/bench_test.go /^func Bench/,/^}/
 
  go test -bench=Benchmark.* -benchmem -benchtime=10s
 
 	goos: darwin
 	goarch: amd64
-	pkg: github.com/iaroslav-ciupin/testing-in-go
-	BenchmarkAnswer-8   	10000000000	         0.32 ns/op	       0 B/op	       0 allocs/op
+	pkg: github.com/iaroslav-ciupin/testing-in-go/code
+	BenchmarkAnswer-8   	200000000	        76.9 ns/op	     352 B/op	       1 allocs/op
 	PASS
-	ok  	github.com/iaroslav-ciupin/testing-in-go	3.221s
-
+	ok  	github.com/iaroslav-ciupin/testing-in-go/code	23.039s
 
 * Coverage?
 
@@ -54,10 +96,14 @@ TODO
 
 * github.com/stretchr/testify/mock
 
+TODO 
+
 : mocking dependencies
 : setting/asserting expectations
 
 * github.com/stretchr/testify/suite
+
+TODO 
 
 : structuring more complex testing logic
 : beforeAll, beforeEvery, afterAll, afterEvery
@@ -85,6 +131,7 @@ TODO
 
 * integration testing
 
+TODO
 No library/framework :(
 
 
